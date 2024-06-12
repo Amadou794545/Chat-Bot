@@ -1,15 +1,17 @@
-import numpy as np
-from keras.models import Sequential
-from keras.optimizers import SGD
 import nltk
+nltk.download('punkt')
+nltk.download('wordnet')
+import numpy as np
+from keras import Sequential
 from keras.src.layers import Dense
+from keras.src.optimizers import SGD
 from nltk.stem import WordNetLemmatizer
+
+
 
 lemmatizer = WordNetLemmatizer()
 
 import json
-
-import pickle
 
 intents_file = open('intents.json').read()
 intents = json.loads(intents_file)
@@ -54,4 +56,3 @@ model.compile(loss='categorical_crossentropy', optimizer=sgd, metrics=['accuracy
 hist = model.fit(np.array(train_x), np.array(train_y), epochs=200, batch_size=5, verbose=1)
 model.save('chatbot_model.h5', hist)
 print("Model is created")
-
