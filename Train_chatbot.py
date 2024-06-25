@@ -31,20 +31,35 @@ for intent in intents['intents']:
 
 print(documents)
 
-training = []
+training_list = []
+# Liste vide pour les sorties, de la longueur du nombre de classes
 output_empty = [0] * len(classes)
+
+# Parcourir chaque document
 for doc in documents:
     bag = []
     word_patterns = doc[0]
+    # Lemmatisation des mots
     word_patterns = [lemmatizer.lemmatize(word.lower()) for word in word_patterns]
+    # Création du sac de mots
     for word in words:
         bag.append(1) if word in word_patterns else bag.append(0)
+
+    # Création de la ligne de sortie correspondante
     output_row = list(output_empty)
     output_row[classes.index(doc[1])] = 1
-    training.append([bag, output_row])
-    training = np.array(training)
+    training_list.append([bag, output_row])
+
+    # Ajout du sac de mots et de la ligne de sortie à la liste d'entraînement
+    training_list.append([bag, output_row])
+    # Conversion de la liste en tableau NumPy
+    training = np.array(training_list, dtype=object)
+    # Séparation des données d'entraînement et des étiquettes
     train_x = list(training[:, 0])
     train_y = list(training[:, 1])
+
+
+
     print("Training data is created")
 
 model = Sequential()
